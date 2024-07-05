@@ -3,9 +3,8 @@ using System.Security.Cryptography;
 
 namespace Commons;
 
-public static class Randomize {
-
-    private static readonly SHA256 HASH = SHA256.Create();
+public static class Randomize
+{
     public static readonly int SEED = DateTime.Now.Millisecond.GetHashCode(); // TODO
     public static readonly Random RANDOM = new(SEED);
 
@@ -14,6 +13,7 @@ public static class Randomize {
     }
 
     public static float RandomRange(float min, float max) {
+        (min, max) = min > max ? (max, min) : (min, max);
         float value = (float)RANDOM.NextDouble();
         float diff = max - min;
         return value * diff + min;
