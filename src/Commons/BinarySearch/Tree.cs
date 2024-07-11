@@ -15,41 +15,52 @@ public abstract partial class Tree<TValue, TNode>(TNode? root = null)
 
     public bool IsReadOnly => false;
 
-    public abstract TNode Create(TValue item);
+    protected abstract TNode Create(TValue item);
 
-    public TNode? GetNode(TValue item, bool lastParent = false) {
+    public TNode? GetNode(TValue item, bool lastNonNull = false)
+            => this.GetNode((curr) => ValueDirectionFromNode(
+                    curr,
+                    item
+            ), lastNonNull);
+
+    protected TNode? GetNode(Func<TNode, Side?> traverse, bool lastNonNull = false) {
         if (this.Root == null) {
             return null;
         }
-        return GetNode(this.Root, item, lastParent);
+        return GetNode(this.Root, traverse, lastNonNull);
     }
 
-    private static TNode? GetNode(TNode current, TValue item, bool lastParent) {
-        var comparison = current.Value.CompareTo(item);
-        if (comparison == 0) {
+    private static TNode? GetNode(TNode current, TValue item, bool lastNonNull = false)
+            => GetNode(current, (node) => ValueDirectionFromNode(node, item), lastNonNull);
+
+    private static TNode? GetNode(TNode? current, Func<TNode, Side?> traverse, bool lastNonNull) {
+        if (current == null) {
+            return null;
+        }
+        var side = traverse(current);
+        if (side == null) {
             return current;
         }
-        var childSide = comparison > 0 ? Side.LEFT : Side.RIGHT;
-        var child = childSide == Side.LEFT ? current.Left : current.Right;
+        var child = side == Side.LEFT ? current.Left : current.Right;
         if (child == null) {
-            return lastParent ? current : null;
+            return lastNonNull ? current : null;
         }
-        return GetNode(child, item, lastParent);
+        return GetNode(child, traverse, lastNonNull);
     }
 
     public void Add(TValue item) => this.Add(this.Create(item));
 
-    private void Add(TNode node) {
+    protected void Add(TNode node) {
         var parent = this.GetNode(node.Value, true);
         if (parent == null) {
             this.Root = node;
             return;
         }
-        var comparison = parent.Value.CompareTo(node.Value);
-        if (comparison == 0) {
+        var side = ValueDirectionFromNode(parent, node.Value);
+        if (side == null) {
             return;
         }
-        parent.SetChild(node, comparison > 0 ? Side.LEFT : Side.RIGHT);
+        parent.SetChild(node, (Side)side);
     }
 
     public bool Remove(TValue item) {
@@ -94,6 +105,16 @@ public abstract partial class Tree<TValue, TNode>(TNode? root = null)
         }
     }
 
+    private static Side? ValueDirectionFromNode(TNode node, TValue value)
+            => SideFromInt(value.CompareTo(node.Value));
+
+    private static Side? SideFromInt(int comparison) {
+        if (comparison == 0) {
+            return null;
+        }
+        return comparison < 0 ? Side.LEFT : Side.RIGHT;
+    }
+
     IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
     public IEnumerator<TValue> GetEnumerator() => new ValueEnumerator(this.Root);
@@ -104,5 +125,5 @@ public abstract partial class Tree<TValue, TNode>(TNode? root = null)
 public class Tree<TValue>
         : Tree<TValue, Node<TValue>>
         where TValue : IComparable<TValue> {
-    public override Node<TValue> Create(TValue item) => new(item);
+    protected override Node<TValue> Create(TValue item) => new(item);
 }

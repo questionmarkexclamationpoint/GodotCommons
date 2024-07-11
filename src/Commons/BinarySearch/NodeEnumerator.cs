@@ -8,6 +8,8 @@ public abstract partial class Tree<TValue, TNode> {
     public sealed class NodeEnumerator(TNode? root) : IEnumerator<TNode> {
         private readonly TNode? root = root;
 
+        private bool started;
+
         private TNode? current;
         public TNode Current {
             get {
@@ -23,32 +25,34 @@ public abstract partial class Tree<TValue, TNode> {
 
         public void Dispose() { }
 
+        private static TNode? Leftmost(TNode? node)
+            => GetNode(node, (_) => Side.LEFT, true);
+
         public bool MoveNext() {
-            if (this.current == null) {
-                this.current = LeftMostChild(this.root);
+            if (!this.started) {
+                this.started = true;
+                this.current = Leftmost(this.root);
                 return this.current != null;
             }
             if (this.Current.Right != null) {
-                this.Current = LeftMostChild(this.Current.Right);
+                this.current = Leftmost(this.Current.Right);
                 return true;
             }
-            if (this.Current?.Parent == null) {
+            if (this.Current.Parent == null) {
                 return false;
             }
             if (this.Current.Equals(this.Current.Parent.Left)) {
                 this.Current = this.Current.Parent;
                 return true;
             }
-            return false;
+            this.current = GetNode(
+                    this.Current,
+                    (n) => n == n.Parent?.Right ? Side.PARENT : null,
+                    false
+            );
+            return this.current != null;
         }
 
-        public void Reset() => this.current = null;
-
-        private static TN LeftMostChild<TN>(TN node) where TN : TNode? {
-            while (node?.Left != null) {
-                node = (TN)node.Left;
-            }
-            return node;
-        }
+        public void Reset() => this.started = false;
     }
 }
