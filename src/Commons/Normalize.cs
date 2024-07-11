@@ -13,8 +13,8 @@ public static class Normalize {
             bool clamp = false
     ) {
         var squeeze = clamp ? TANH_CLAMP_X_FACTOR : 1;
-        var outStretch = clamp ? TANH_CLAMP_Y_FACTOR : 1;
-        return outStretch * (float)Math.Tanh(squeeze * value);
+        var stretch = clamp ? TANH_CLAMP_Y_FACTOR : 1;
+        return stretch * (float)Math.Tanh(squeeze * value);
     }
 
     // TODO implement other parameters for sigmoid

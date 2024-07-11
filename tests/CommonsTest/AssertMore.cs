@@ -12,7 +12,7 @@ public static class AssertMore {
     ) => Assert.IsTrue(
         expected + nearness >= actual
                 && expected - nearness <= actual,
-        message
+        $"Assert.AreNear failed. Expected:<{expected}>. Actual:<{actual}>. Nearness:<{nearness}>. {message}"
     );
 
     public static void AreNear(

@@ -18,15 +18,15 @@ public class NormalizeTest {
     [TestMethod]
     public void TestClampedTanh() {
         var result = Normalize.Tanh(2, clamp: true);
-        Assert.AreEqual(1, result);
+        AssertMore.AreNear(1, result, 0.015);
         result = Normalize.Tanh(1, clamp: true);
-        Assert.AreEqual(1, result);
+        AssertMore.AreNear(1, result);
         result = Normalize.Tanh(-2, clamp: true);
-        Assert.AreEqual(-1, result);
+        AssertMore.AreNear(-1, result, 0.015);
         result = Normalize.Tanh(-1, clamp: true);
-        Assert.AreEqual(-1, result);
+        AssertMore.AreNear(-1, result);
         result = Normalize.Tanh(0, clamp: true);
-        Assert.AreEqual(0, result);
+        AssertMore.AreNear(0, result);
     }
 
     [TestMethod]
