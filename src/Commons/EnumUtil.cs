@@ -1,18 +1,16 @@
+namespace Commons;
+
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Commons;
-
 public static class EnumUtil {
-    public static long ToLong<E>(E value) where E : Enum {
-        return Unsafe.As<E, long>(ref value);
-    }
+    public static long ToLong<TEnum>(TEnum value) where TEnum : Enum => Unsafe.As<TEnum, long>(ref value);
 
-    public static E? FromLong<E>(long value) where E : struct, Enum {
-        E[] values = Enum.GetValues<E>();
+    public static TEnum? FromLong<TEnum>(long value) where TEnum : struct, Enum {
+        var values = Enum.GetValues<TEnum>();
         if (value < 0 || value >= values.Length) {
             return null;
         }
-        return Unsafe.As<long, E>(ref value);
+        return Unsafe.As<long, TEnum>(ref value);
     }
 }

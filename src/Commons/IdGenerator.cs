@@ -1,15 +1,11 @@
-using System.Threading;
-
 namespace Commons;
 
-public class IdGenerator {
-    private ulong currentId;
+using System.Threading;
 
-    public IdGenerator(ulong startingId = 0) {
-        currentId = startingId;
-    }
+public class IdGenerator(ulong startingId = 0) {
+    private ulong currentId = startingId;
 
-    public ulong NewId => Interlocked.Increment(ref currentId);
+    public ulong NewId => Interlocked.Increment(ref this.currentId);
 
-    public ulong LastId => Interlocked.Read(ref currentId);
+    public ulong LastId => Interlocked.Read(ref this.currentId);
 }
