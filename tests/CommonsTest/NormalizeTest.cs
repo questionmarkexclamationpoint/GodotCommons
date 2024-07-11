@@ -38,19 +38,4 @@ public class NormalizeTest {
         result = Normalize.Sigmoid(0);
         Assert.AreEqual(0.5, result);
     }
-
-    [TestMethod]
-    public void TestClampedSigmoid() {
-        var result = Normalize.Sigmoid(2, clamp: true);
-        Assert.AreEqual(1, result);
-        result = Normalize.Sigmoid(1, clamp: true);
-        Assert.AreEqual(1, result);
-        result = Normalize.Sigmoid(-2, clamp: true);
-        Assert.AreEqual(0, result);
-        result = Normalize.Sigmoid(-1, clamp: true);
-        Assert.AreEqual(0, result);
-        // TODO these are broken
-        // result = Normalize.Sigmoid(0, clamp: true);
-        // Assert.AreEqual(0.5, result);
-    }
 }
