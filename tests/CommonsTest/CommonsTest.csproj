@@ -5,7 +5,7 @@
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net7.0</TargetFramework>
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'ios' ">net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <RootNamespace>Commons</RootNamespace>
+    <RootNamespace>CommonsTest</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

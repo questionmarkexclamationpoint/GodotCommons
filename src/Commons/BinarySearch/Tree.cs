@@ -18,34 +18,34 @@ public abstract partial class Tree<TValue, TNode>(TNode? root = null)
     protected abstract TNode Create(TValue item);
 
     public TNode? GetNode(TValue item, bool lastNonNull = false)
-            => this.GetNode((curr) => ValueDirectionFromNode(
+            => this.Traverse((curr) => ValueDirectionFromNode(
                     curr,
                     item
             ), lastNonNull);
 
-    protected TNode? GetNode(Func<TNode, Side?> traverse, bool lastNonNull = false) {
+    protected TNode? Traverse(Func<TNode, Side?> nextSide, bool lastNonNull = false) {
         if (this.Root == null) {
             return null;
         }
-        return GetNode(this.Root, traverse, lastNonNull);
+        return Traverse(this.Root, nextSide, lastNonNull);
     }
 
     private static TNode? GetNode(TNode current, TValue item, bool lastNonNull = false)
-            => GetNode(current, (node) => ValueDirectionFromNode(node, item), lastNonNull);
+            => Traverse(current, (node) => ValueDirectionFromNode(node, item), lastNonNull);
 
-    private static TNode? GetNode(TNode? current, Func<TNode, Side?> traverse, bool lastNonNull) {
+    private static TNode? Traverse(TNode? current, Func<TNode, Side?> nextSide, bool lastNonNull) {
         if (current == null) {
             return null;
         }
-        var side = traverse(current);
+        var side = nextSide(current);
         if (side == null) {
             return current;
         }
-        var child = side == Side.LEFT ? current.Left : current.Right;
+        var child = current[(Side)side];
         if (child == null) {
             return lastNonNull ? current : null;
         }
-        return GetNode(child, traverse, lastNonNull);
+        return Traverse(child, nextSide, lastNonNull);
     }
 
     public void Add(TValue item) => this.Add(this.Create(item));

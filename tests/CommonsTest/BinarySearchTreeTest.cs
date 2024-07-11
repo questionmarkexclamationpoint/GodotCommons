@@ -1,5 +1,8 @@
 namespace CommonsTest;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Commons.BinarySearch;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -95,5 +98,43 @@ public class BinarySearchTreeTest {
         Assert.AreEqual(4, bst.Root.Right.Left.Value);
         Assert.AreEqual(16, bst.Root.Right.Right.Value);
         Assert.AreEqual(32, bst.Root.Right.Right.Right.Value);
+    }
+
+    [TestMethod]
+    public void TestCopy() {
+        var inSet = new HashSet<int>() {
+            0,
+            -16, 16,
+            -32, -8, 8, 32,
+            -48, -24, -12, -6, 6, 12, 24, 48,
+            -64, -40, -28, -22, -13, -11, -7, -5, 5, 7, 11, 13, 22, 28, 40, 64
+        };
+        var tree = new Tree<int>();
+        foreach (var i in inSet) {
+            tree.Add(i);
+        }
+        Assert.AreEqual(inSet.Count, tree.Count);
+        var arr = new int[inSet.Count];
+        tree.CopyTo(arr, 0);
+        var outSet = new HashSet<int>(arr);
+        foreach (var i in inSet) {
+            Assert.IsTrue(outSet.Contains(i), $"{i} missing");
+        }
+    }
+
+    [TestMethod]
+    public void TestForEach() {
+        var tree = new Tree<int>() {
+            0,
+            -16, 16,
+            -32, -8, 8, 32,
+            -48, -24, -12, -6, 6, 12, 24, 48,
+            -64, -40, -28, -22, -13, -11, -7, -5, 5, 7, 11, 13, 22, 28, 40, 64
+        };
+        var last = int.MinValue;
+        foreach (var i in tree) {
+            Assert.IsTrue(last < i, $"{i} out of order");
+            last = i;
+        }
     }
 }

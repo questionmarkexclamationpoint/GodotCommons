@@ -26,7 +26,7 @@ public abstract partial class Tree<TValue, TNode> {
         public void Dispose() { }
 
         private static TNode? Leftmost(TNode? node)
-            => GetNode(node, (_) => Side.LEFT, true);
+            => Traverse(node, (_) => Side.LEFT, true);
 
         public bool MoveNext() {
             if (!this.started) {
@@ -45,11 +45,11 @@ public abstract partial class Tree<TValue, TNode> {
                 this.Current = this.Current.Parent;
                 return true;
             }
-            this.current = GetNode(
+            this.current = Traverse(
                     this.Current,
                     (n) => n == n.Parent?.Right ? Side.PARENT : null,
                     false
-            );
+            )?.Parent;
             return this.current != null;
         }
 

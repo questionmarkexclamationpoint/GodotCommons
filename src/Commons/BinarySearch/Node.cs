@@ -6,8 +6,14 @@ using System;
 public class Node<TValue, TNode>(TValue value)
         where TValue : IComparable<TValue>
         where TNode : Node<TValue, TNode> {
-
     public TValue Value { get; } = value;
+
+    public TNode? this[Side side] => side switch {
+        Side.LEFT => this.Left,
+        Side.RIGHT => this.Right,
+        Side.PARENT => this.Parent,
+        _ => null
+    };
 
     public TNode? Parent { get; private set; }
 
