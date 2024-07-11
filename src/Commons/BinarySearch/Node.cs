@@ -2,6 +2,7 @@ namespace Commons.BinarySearch;
 
 using System;
 
+// TODO generalize this to a graph node
 public class Node<TValue, TNode>(TValue value)
         where TValue : IComparable<TValue>
         where TNode : Node<TValue, TNode> {
