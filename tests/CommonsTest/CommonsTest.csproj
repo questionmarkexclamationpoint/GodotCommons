@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net7.0</TargetFramework>
-    <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'ios' ">net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <RootNamespace>CommonsTest</RootNamespace>
   </PropertyGroup>
@@ -16,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Commons\Commons.csproj" />
+    <ProjectReference Include="../../src/Commons/Commons.csproj" />
   </ItemGroup>
 
 </Project>
