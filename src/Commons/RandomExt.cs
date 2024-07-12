@@ -2,7 +2,7 @@ namespace Commons;
 
 using System;
 
-public static class RandomExtensions {
+public static class RandomExt {
     public static float NextFloat(this Random random) => random.NextSingle();
 
 

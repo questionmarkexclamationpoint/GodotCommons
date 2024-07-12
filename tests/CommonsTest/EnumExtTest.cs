@@ -5,7 +5,7 @@ using Commons;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
-public class EnumExtensionsTest {
+public class EnumExtTest {
     private enum TestEnum {
         A = -2,
         B = -3,
@@ -20,7 +20,7 @@ public class EnumExtensionsTest {
             Assert.AreEqual(i, values[i].ToIndex(), $"{values[i]} failed");
             Assert.AreEqual(
                     values[i],
-                    EnumExtensions.FromIndex<TestEnum>(values[i].ToIndex()),
+                    EnumExt.FromIndex<TestEnum>(values[i].ToIndex()),
                     $"{values[i]} failed"
             );
         }

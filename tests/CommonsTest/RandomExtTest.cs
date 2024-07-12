@@ -5,7 +5,7 @@ using Commons;
 using System;
 
 [TestClass]
-public class RandomExtensionsTest {
+public class RandomExtTest {
     [TestMethod]
     public void TestRandom() {
         var random = new Random();

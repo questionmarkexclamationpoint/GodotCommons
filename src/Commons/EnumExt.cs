@@ -2,7 +2,7 @@ namespace Commons;
 
 using System;
 
-public static class EnumExtensions {
+public static class EnumExt {
     public static long ToIndex(this Enum value)
             => Array.IndexOf(Enum.GetValues(value.GetType()), value);
 
