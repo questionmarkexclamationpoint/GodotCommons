@@ -2,8 +2,6 @@ namespace Commons;
 
 using System.Numerics;
 
-
-// TODO this is broken
 public static class Range {
     public static TOut Map<TIn, TOut>(TIn value, (TIn, TIn) inBounds, (TOut, TOut) outBounds)
             where TIn : INumber<TIn>
