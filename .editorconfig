@@ -18,50 +18,7 @@ indent_style = space
 indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
-
-##########################################
-# File Extension Settings
-##########################################
-
-# Visual Studio Solution Files
-[*.sln]
-indent_style = space
-
-# Visual Studio XML Project Files
-[*.{csproj,vbproj,vcxproj.filters,proj,projitems,shproj}]
-indent_size = 4
-
-# XML Configuration Files
-[*.{xml,config,props,targets,nuspec,resx,ruleset,vsixmanifest,vsct}]
-indent_size = 4
-
-# JSON Files
-[*.{json,json5,webmanifest}]
-indent_size = 4
-
-# YAML Files
-[*.{yml,yaml}]
-indent_size = 4
-
-# Markdown Files
-[*.{md,mdx}]
-trim_trailing_whitespace = true
-
-# Web Files
-[*.{htm,html,js,jsm,ts,tsx,cjs,cts,ctsx,mjs,mts,mtsx,css,sass,scss,less,pcss,svg,vue}]
-indent_size = 4
-
-# Batch Files
-[*.{cmd,bat}]
 end_of_line = lf
-
-# Bash Files
-[*.sh]
-end_of_line = lf
-
-# Makefiles
-[Makefile]
-indent_style = space
 
 ##########################################
 # Default .NET Code Style Severities
