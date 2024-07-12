@@ -1,15 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <EnableDynamicLoading>true</EnableDynamicLoading>
-    <RootNamespace>Commons</RootNamespace>
-    <Nullable>enable</Nullable>
+    <PackageId>QuestionMarkExclamationPoint.Commons</PackageId>
+    <Authors>questionmarkexclamationpoint</Authors>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Version>0.1.0</Version>
     <AssemblyVersion>0.1.0</AssemblyVersion>
+    <RootNamespace>Commons</RootNamespace>
+
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="GodotSharp" Version="4.2.2" />
+    <None Include="../LICENSE" Pack="true" PackagePath="/" />
+    <None Include="../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 </Project>
