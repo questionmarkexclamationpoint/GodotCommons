@@ -1,7 +1,6 @@
-namespace CommonsTest;
+namespace QuestionMarkExclamationPoint.Commons.Test;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 
 public static class AssertMore {
     public static void AreNear(

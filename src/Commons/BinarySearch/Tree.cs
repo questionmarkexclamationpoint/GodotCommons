@@ -1,7 +1,6 @@
-namespace Commons.BinarySearch;
+namespace QuestionMarkExclamationPoint.Commons.BinarySearch;
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 public abstract partial class Tree<TValue, TNode>(TNode? root = null)
@@ -114,12 +113,6 @@ public abstract partial class Tree<TValue, TNode>(TNode? root = null)
         }
         return comparison < 0 ? Side.LEFT : Side.RIGHT;
     }
-
-    IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-
-    public IEnumerator<TValue> GetEnumerator() => new ValueEnumerator(this.Root);
-
-    public IEnumerator<TNode> GetNodeEnumerator() => new NodeEnumerator(this.Root);
 }
 
 public class Tree<TValue>

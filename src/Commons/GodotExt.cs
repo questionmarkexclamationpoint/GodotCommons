@@ -1,4 +1,4 @@
-namespace Commons;
+namespace QuestionMarkExclamationPoint.Commons;
 
 using Godot;
 

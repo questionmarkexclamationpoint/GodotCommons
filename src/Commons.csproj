@@ -7,7 +7,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Version>0.1.0</Version>
     <AssemblyVersion>0.1.0</AssemblyVersion>
-    <RootNamespace>Commons</RootNamespace>
+    <RootNamespace>QuestionMarkExclamationPoint</RootNamespace>
 
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <Nullable>enable</Nullable>

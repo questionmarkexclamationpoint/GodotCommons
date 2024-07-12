@@ -1,10 +1,12 @@
-namespace Commons.BinarySearch;
+namespace QuestionMarkExclamationPoint.Commons.BinarySearch;
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
 public abstract partial class Tree<TValue, TNode> {
+    public IEnumerator<TNode> GetNodeEnumerator() => new NodeEnumerator(this.Root);
+
     public sealed class NodeEnumerator(TNode? root) : IEnumerator<TNode> {
         private readonly TNode? root = root;
 

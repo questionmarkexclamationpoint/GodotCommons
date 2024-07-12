@@ -1,4 +1,4 @@
-namespace Commons.BinarySearch;
+namespace QuestionMarkExclamationPoint.Commons.BinarySearch;
 
 using System;
 

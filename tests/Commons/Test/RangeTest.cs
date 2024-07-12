@@ -1,12 +1,14 @@
-namespace CommonsTest;
+namespace QuestionMarkExclamationPoint.Commons.Test;
 
 using Commons;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
-public class RangeTest {
+public class RangeTest
+{
     [TestMethod]
-    public void TestSimpleMap() {
+    public void TestSimpleMap()
+    {
         var numTests = 10;
         double inMin = -1;
         double inMax = 1;
@@ -14,7 +16,8 @@ public class RangeTest {
         double outMin = -100;
         double outMax = 200;
         var outDelta = (outMax - outMin) / numTests;
-        for (double i = inMin, j = outMin; i < inMax; i += inDelta, j += outDelta) {
+        for (double i = inMin, j = outMin; i < inMax; i += inDelta, j += outDelta)
+        {
             var result = Range.Map(i, (inMin, inMax), (outMin, outMax));
             AssertMore.AreNear(
                 j,
@@ -25,7 +28,8 @@ public class RangeTest {
     }
 
     [TestMethod]
-    public void TestMidPointMap() {
+    public void TestMidPointMap()
+    {
         float inMin = -1;
         float inMid = 0;
         float inMax = 1;

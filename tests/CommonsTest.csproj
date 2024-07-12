@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <RootNamespace>CommonsTest</RootNamespace>
+    <RootNamespace>QuestionMarkExclamationPoint</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../src/Commons/Commons.csproj" />
+    <ProjectReference Include="../src/Commons.csproj" />
   </ItemGroup>
 
 </Project>

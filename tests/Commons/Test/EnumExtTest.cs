@@ -1,12 +1,14 @@
-namespace CommonsTest;
+namespace QuestionMarkExclamationPoint.Commons.Test;
 
 using System;
 using Commons;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
-public class EnumExtTest {
-    private enum TestEnum {
+public class EnumExtTest
+{
+    private enum TestEnum
+    {
         A = -2,
         B = -3,
         C = 5,
@@ -14,9 +16,11 @@ public class EnumExtTest {
     }
 
     [TestMethod]
-    public void TestToAndFromLong() {
+    public void TestToAndFromLong()
+    {
         var values = Enum.GetValues<TestEnum>();
-        for (var i = 0; i < values.Length; i++) {
+        for (var i = 0; i < values.Length; i++)
+        {
             Assert.AreEqual(i, values[i].ToIndex(), $"{values[i]} failed");
             Assert.AreEqual(
                     values[i],
