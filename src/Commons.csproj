@@ -5,8 +5,8 @@
     <Authors>questionmarkexclamationpoint</Authors>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Version>0.1.0</Version>
-    <AssemblyVersion>0.1.0</AssemblyVersion>
+    <Version>0.2.0</Version>
+    <AssemblyVersion>0.2.0</AssemblyVersion>
     <RootNamespace>QuestionMarkExclamationPoint</RootNamespace>
 
     <EnableDynamicLoading>true</EnableDynamicLoading>
