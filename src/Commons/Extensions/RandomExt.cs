@@ -1,4 +1,4 @@
-namespace QuestionMarkExclamationPoint.Commons;
+namespace QuestionMarkExclamationPoint.Commons.Extensions;
 
 using System;
 

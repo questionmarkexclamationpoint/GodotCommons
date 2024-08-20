@@ -1,15 +1,12 @@
 namespace QuestionMarkExclamationPoint.Commons.Test;
 
-using System;
 using Commons;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
-public class WeightTreeTest
-{
+public class WeightTreeTest {
     [TestMethod]
-    public void TestSample()
-    {
+    public void TestSample() {
         var tree = new WeightTree<int> {
             { 1, 1 },
             { 2, 3 },

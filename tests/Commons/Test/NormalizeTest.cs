@@ -4,11 +4,9 @@ using Commons;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
-public class NormalizeTest
-{
+public class NormalizeTest {
     [TestMethod]
-    public void TestSimpleTanh()
-    {
+    public void TestSimpleTanh() {
         var result = Normalize.Tanh(-1_000_000);
         AssertMore.AreNear(-1, result);
         result = Normalize.Tanh(1_000_000);
@@ -18,8 +16,7 @@ public class NormalizeTest
     }
 
     [TestMethod]
-    public void TestClampedTanh()
-    {
+    public void TestClampedTanh() {
         var result = Normalize.Tanh(2, clamp: true);
         AssertMore.AreNear(1, result, 0.015);
         result = Normalize.Tanh(1, clamp: true);
@@ -33,8 +30,7 @@ public class NormalizeTest
     }
 
     [TestMethod]
-    public void TestSimpleSigmoid()
-    {
+    public void TestSimpleSigmoid() {
         var result = Normalize.Sigmoid(-1_000_000);
         AssertMore.AreNear(0, result);
         result = Normalize.Sigmoid(1_000_000);

@@ -28,10 +28,10 @@ public static class Range {
     }
 
     public static float MapToPercentage(float value, (float, float) inBounds)
-            => Map(value, inBounds, (0f, 1f));
+        => Map(value, inBounds, (0f, 1f));
 
     public static float MapToPercentage(float value, (float, float, float) inBounds)
-            => Map(value, inBounds, (0f, 0.5f, 1f));
+        => Map(value, inBounds, (0f, 0.5f, 1f));
 
     public static float MapFromPercentage(float percentage, (float, float) outBounds)
         => Map(percentage, (0f, 1f), outBounds);
@@ -50,13 +50,13 @@ public static class Range {
     }
 
     private static (T, T) SortTwo<T>((T, T) two) where T : INumber<T>
-            => SortTwo(two.Item1, two.Item2);
+        => SortTwo(two.Item1, two.Item2);
 
     private static (T, T) SortTwo<T>(T a, T b) where T : INumber<T>
-            => a > b ? (b, a) : (a, b);
+        => a > b ? (b, a) : (a, b);
 
     private static (T, T, T) SortThree<T>((T, T, T) three) where T : INumber<T>
-            => SortThree(three.Item1, three.Item2, three.Item3);
+        => SortThree(three.Item1, three.Item2, three.Item3);
 
     private static (T, T, T) SortThree<T>(T a, T b, T c) where T : INumber<T> {
         (a, c) = SortTwo(a, c);
