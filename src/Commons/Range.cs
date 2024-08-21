@@ -72,13 +72,23 @@ public readonly struct Range<T>(T a, T b, T? c = null)
         return (this.GetScale(other, value) * (value - inMin)) + outMin;
     }
 
+    public override string ToString() => $"[{this.Start} .. {this.Mid} .. {this.End}]";
+
     private static T Two => T.One + T.One;
 
     private static T InitializeMid(T start, T mid, T end) {
-        if (end > start ? mid < start : mid > start) {
-            mid = start;
-        } else if (start > end ? mid > end : mid < end) {
-            mid = end;
+        if (end > start) {
+            if (mid < start) {
+                mid = start;
+            } else if (mid > end) {
+                mid = end;
+            }
+        } else {
+            if (mid > start) {
+                mid = start;
+            } else if (mid < end) {
+                mid = end;
+            }
         }
         return mid;
     }
