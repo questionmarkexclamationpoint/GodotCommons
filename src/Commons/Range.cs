@@ -2,67 +2,88 @@ namespace QuestionMarkExclamationPoint.Commons;
 
 using System.Numerics;
 
-// TODO rename this class / fix it, idk
-public static class Range {
-    public static TOut Map<TIn, TOut>(TIn value, (TIn, TIn) inBounds, (TOut, TOut) outBounds)
-            where TIn : INumber<TIn>
-            where TOut : INumber<TOut>, IDivisionOperators<TOut, TIn, TOut>, IMultiplyOperators<TOut, TIn, TOut> {
-        var (inMin, inMax) = SortTwo(inBounds);
-        var (outMin, outMax) = SortTwo(outBounds);
-        if (value <= inMin) {
-            return outMin;
-        } else if (value >= inMax) {
-            return outMax;
+public readonly struct Range<T>(T a, T b, T? c = null)
+        where T : struct, INumber<T> {
+    public T Start { get; } = a;
+
+    public T Mid { get; } = c == null ? (b + a) / Two : b;
+
+    public T End { get; } = c == null ? b : (T)c;
+
+    public T Delta => this.End - this.Start;
+
+    public T UpperDelta => this.End - this.Mid;
+
+    public T LowerDelta => this.Mid! - this.Start;
+
+    public bool IsAscending => this.End > this.Start;
+
+    public bool IsDescending => this.Start > this.End;
+
+    public Range<T> Lower => new(this.Start, this.Mid);
+
+    public Range<T> Upper => new(this.Mid, this.End);
+
+    public static Range<T> operator *(Range<T> left, T right)
+        => new((left.LowerDelta * right) + left.Start, left.Mid, (left.UpperDelta * right) + left.Mid);
+
+    public static Range<T> operator /(Range<T> left, T right)
+        => new((left.LowerDelta / right) + left.Start, left.Mid, (left.UpperDelta / right) + left.Mid);
+
+    public static Range<T> operator +(Range<T> left, T right)
+        => new(left.Start + right, left.Mid + right, left.End + right);
+
+    public static Range<T> operator -(Range<T> left, T right)
+        => new(left.Start - right, left.Mid - right, left.End - right);
+    public TOther GetScale<TOther>(Range<TOther> other, T value)
+            where TOther : struct,
+                INumber<TOther>,
+                IDivisionOperators<TOther, T, TOther> {
+        var inMin = this.GetMin(value);
+        var inMax = this.GetMax(value);
+        var outMin = inMin == this.Start ? other.Start : other.Mid;
+        var outMax = inMax == this.End ? other.End : other.Mid;
+        var inDelta = inMax - inMin;
+        var outDelta = outMax - outMin;
+        return outDelta / inDelta;
+    }
+
+    public (TOther, TOther) GetScale<TOther>(Range<TOther> other)
+            where TOther : struct,
+                INumber<TOther>,
+                IDivisionOperators<TOther, T, TOther>
+        => (this.GetScale(other, this.Start), this.GetScale(other, this.End));
+
+    public TOther Map<TOther>(Range<TOther> other, T value)
+            where TOther : struct,
+                INumber<TOther>,
+                IDivisionOperators<TOther, T, TOther>,
+                IMultiplyOperators<TOther, T, TOther> {
+        if (this.IsAscending ? value <= this.Start : value >= this.Start) {
+            return other.Start;
+        } else if (this.IsAscending ? value >= this.End : value <= this.End) {
+            return other.End;
         }
-        var scale = GetScale(inBounds, outBounds);
-        return (scale * (value - inMin)) + outMin;
+        var inMin = this.GetMin(value);
+        var outMin = inMin == this.Start ? other.Start : other.Mid;
+        return (this.GetScale(other, value) * (value - inMin)) + outMin;
     }
 
-    public static TOut Map<TIn, TOut>(TIn value, (TIn, TIn, TIn) inBounds, (TOut, TOut, TOut) outBounds)
-            where TIn : INumber<TIn>
-            where TOut : INumber<TOut>, IDivisionOperators<TOut, TIn, TOut>, IMultiplyOperators<TOut, TIn, TOut> {
-        var (inMin, inMid, inMax) = SortThree(inBounds);
-        var (outMin, outMid, outMax) = SortThree(outBounds);
-        return value <= inMid
-                ? Map(value, (inMin, inMid), (outMin, outMid))
-                : Map(value, (inMid, inMax), (outMid, outMax));
-    }
+    private static T Two => T.One + T.One;
 
-    public static float MapToPercentage(float value, (float, float) inBounds)
-        => Map(value, inBounds, (0f, 1f));
+    private T GetMin(T value)
+        => (this.IsAscending ? value <= this.Mid : value >= this.Mid)
+            ? this.Start
+            : this.Mid;
 
-    public static float MapToPercentage(float value, (float, float, float) inBounds)
-        => Map(value, inBounds, (0f, 0.5f, 1f));
+    private T GetMax(T value)
+        => (this.IsAscending ? value <= this.Mid : value >= this.Mid)
+            ? this.Mid
+            : this.End;
+}
 
-    public static float MapFromPercentage(float percentage, (float, float) outBounds)
-        => Map(percentage, (0f, 1f), outBounds);
+public static class Range {
+    public static readonly Range<double> Percentage = new(0, 1);
 
-    public static float MapFromPercentage(float percentage, (float, float, float) outBounds)
-        => Map(percentage, (0f, 0.5f, 1f), outBounds);
-
-    private static TOut GetScale<TIn, TOut>((TIn, TIn) inBounds, (TOut, TOut) outBounds)
-            where TIn : INumber<TIn>
-            where TOut : INumber<TOut>, IDivisionOperators<TOut, TIn, TOut> {
-        var (inMin, inMax) = inBounds;
-        var (outMin, outMax) = outBounds;
-        var inRange = inMax - inMin;
-        var outRange = outMax - outMin;
-        return outRange / inRange;
-    }
-
-    private static (T, T) SortTwo<T>((T, T) two) where T : INumber<T>
-        => SortTwo(two.Item1, two.Item2);
-
-    private static (T, T) SortTwo<T>(T a, T b) where T : INumber<T>
-        => a > b ? (b, a) : (a, b);
-
-    private static (T, T, T) SortThree<T>((T, T, T) three) where T : INumber<T>
-        => SortThree(three.Item1, three.Item2, three.Item3);
-
-    private static (T, T, T) SortThree<T>(T a, T b, T c) where T : INumber<T> {
-        (a, c) = SortTwo(a, c);
-        (a, b) = SortTwo(a, b);
-        (b, c) = SortTwo(b, c);
-        return (a, b, c);
-    }
+    public static readonly Range<double> Tanh = new(-1, 1);
 }
