@@ -6,7 +6,10 @@ public readonly struct Range<T>(T a, T b, T? c = null)
         where T : struct, INumber<T> {
     public T Start { get; } = a;
 
-    public T Mid { get; } = c == null ? (b + a) / Two : b;
+    // TODO find a better way to hand invalid non-null mid
+    public T Mid { get; } = c == null
+            ? (b + a) / Two
+            : InitializeMid(a, b, (T)c);
 
     public T End { get; } = c == null ? b : (T)c;
 
@@ -70,6 +73,15 @@ public readonly struct Range<T>(T a, T b, T? c = null)
     }
 
     private static T Two => T.One + T.One;
+
+    private static T InitializeMid(T start, T mid, T end) {
+        if (end > start ? mid < start : mid > start) {
+            mid = start;
+        } else if (start > end ? mid > end : mid < end) {
+            mid = end;
+        }
+        return mid;
+    }
 
     private T GetMin(T value)
         => (this.IsAscending ? value <= this.Mid : value >= this.Mid)
