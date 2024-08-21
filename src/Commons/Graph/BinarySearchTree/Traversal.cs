@@ -29,7 +29,10 @@ internal static class BinarySearchTreeTraversalExt {
     private static Traverser.Successor<TNode> InOrderSuccessor<TNode, TValue>(TNode? root)
             where TValue : IComparable<TValue>
             where TNode : Node<TNode, TValue> {
-        static TNode? successor(TNode current, TNode? root) {
+        static TNode? successor(TNode? current, TNode? root) {
+            if (current == null) {
+                return null;
+            }
             if (current.Right != null) {
                 return DirectionMost<TNode, TValue>(current.Right, Direction.Left);
             }
@@ -56,7 +59,10 @@ internal static class BinarySearchTreeTraversalExt {
     private static Traverser.Successor<TNode> PreOrderSuccessor<TNode, TValue>(TNode? root)
             where TValue : IComparable<TValue>
             where TNode : Node<TNode, TValue> {
-        static TNode? successor(TNode current, TNode? root) {
+        static TNode? successor(TNode? current, TNode? root) {
+            if (current == null) {
+                return null;
+            }
             if (current.Left != null) {
                 return current.Left;
             }
@@ -100,7 +106,10 @@ internal static class BinarySearchTreeTraversalExt {
     private static Traverser.Successor<TNode> PostOrderSuccessor<TNode, TValue>(TNode? root)
             where TValue : IComparable<TValue>
             where TNode : Node<TNode, TValue> {
-        static TNode? successor(TNode current, TNode? root) {
+        static TNode? successor(TNode? current, TNode? root) {
+            if (current == null) {
+                return null;
+            }
             if (ReferenceEquals(current, current.Parent?.Right)) {
                 if (ReferenceEquals(current.Parent, root)) {
                     return null;
@@ -125,7 +134,10 @@ internal static class BinarySearchTreeTraversalExt {
     private static Traverser.Successor<TNode> DepthFirstSuccessor<TNode, TValue>()
             where TValue : IComparable<TValue>
             where TNode : Node<TNode, TValue> {
-        static TNode? successor(TNode current, Stack<TNode> stack, HashSet<TNode> visited) {
+        static TNode? successor(TNode? current, Stack<TNode> stack, HashSet<TNode> visited) {
+            if (current == null) {
+                return null;
+            }
             _ = visited.Add(current);
             if (current.Left != null && !visited.Contains(current.Left)) {
                 stack.Push(current.Left);
@@ -143,7 +155,10 @@ internal static class BinarySearchTreeTraversalExt {
     private static Traverser.Successor<TNode> BreadthFirstSuccessor<TNode, TValue>()
             where TValue : IComparable<TValue>
             where TNode : Node<TNode, TValue> {
-        static TNode? successor(TNode current, Queue<TNode> queue, HashSet<TNode> visited) {
+        static TNode? successor(TNode? current, Queue<TNode> queue, HashSet<TNode> visited) {
+            if (current == null) {
+                return null;
+            }
             _ = visited.Add(current);
             if (current.Left != null && !visited.Contains(current.Left)) {
                 queue.Enqueue(current.Left);

@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using QuestionMarkExclamationPoint.Commons.Extensions;
+using QuestionMarkExclamationPoint.Commons.Graph.Generic;
 
 public abstract class BinarySearchTree<TNode, TValue>
         : ITree<TNode>, ICollection<TValue>
@@ -63,6 +64,9 @@ public abstract class BinarySearchTree<TNode, TValue>
     internal Traverser<TNode> GetComparisonTraverser(TValue item) => new(
         this.Root,
         node => {
+            if (node == null) {
+                return null;
+            }
             var comparison = item.CompareTo(node.Value);
             if (comparison == 0) {
                 return null;

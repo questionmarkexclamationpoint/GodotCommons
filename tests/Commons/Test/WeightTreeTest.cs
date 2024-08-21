@@ -1,7 +1,7 @@
 namespace QuestionMarkExclamationPoint.Commons.Test;
 
-using Commons;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QuestionMarkExclamationPoint.Commons.Graph;
 
 [TestClass]
 public class WeightTreeTest {

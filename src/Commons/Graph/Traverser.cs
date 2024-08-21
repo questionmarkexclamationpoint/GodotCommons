@@ -10,7 +10,7 @@ public class Traverser<TNode>(
 ) : IEnumerator<TNode> {
     private readonly TNode? firstNode = firstNode;
 
-    private readonly Traverser.Successor<TNode> successor = successor ?? ((_) => default);
+    public Traverser.Successor<TNode> Successor { get; } = successor ?? ((_) => default);
 
     private bool started;
     private TNode? current;
@@ -30,19 +30,10 @@ public class Traverser<TNode>(
 
     public bool MoveNext() {
         this.current = this.started
-            ? this.successor(this.Current)
+            ? this.Successor(this.Current)
             : this.firstNode;
         this.started = true;
         return this.current != null;
-    }
-
-    public TNode? PeekNext() {
-        if (!this.started) {
-            return this.firstNode;
-        }
-        return this.started
-            ? this.successor(this.Current)
-            : this.firstNode;
     }
 
     public void Reset() {

@@ -3,6 +3,7 @@ namespace QuestionMarkExclamationPoint.Commons.Graph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using QuestionMarkExclamationPoint.Commons.Graph.Generic;
 
 public static partial class BinarySearchTree {
     public class Node<TNode, TValue>(TValue value)

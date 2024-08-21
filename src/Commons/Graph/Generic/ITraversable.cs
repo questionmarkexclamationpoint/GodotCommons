@@ -1,4 +1,4 @@
-namespace QuestionMarkExclamationPoint.Commons.Graph;
+namespace QuestionMarkExclamationPoint.Commons.Graph.Generic;
 
 public interface ITraversable<T> {
     Traverser<T> GetTraverser();

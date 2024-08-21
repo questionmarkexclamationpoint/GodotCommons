@@ -1,4 +1,4 @@
-namespace QuestionMarkExclamationPoint.Commons.Graph;
+namespace QuestionMarkExclamationPoint.Commons.Graph.Generic;
 
 public interface IIndexedNode<TNode, TIndex>
         : INode<TNode>

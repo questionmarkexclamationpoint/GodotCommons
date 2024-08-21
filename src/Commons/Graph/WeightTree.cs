@@ -1,8 +1,7 @@
-namespace QuestionMarkExclamationPoint.Commons;
+namespace QuestionMarkExclamationPoint.Commons.Graph;
 
 using System;
 using static QuestionMarkExclamationPoint.Commons.Graph.BinarySearchTree;
-using QuestionMarkExclamationPoint.Commons.Graph;
 
 public class WeightTree<TValue>
         : BinarySearchTree<WeightTree.Node<TValue>, TValue>
