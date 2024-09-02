@@ -6,7 +6,7 @@ using System;
 
 [TestClass]
 public class RandomExtTest {
-    private static void TestValues(Random random, double a, double b) {
+    private static void TestNextInRange(Random random, double a, double b) {
         // make variance half the difference, and expected the mean of a and b,
         // so that any correctly generated random value will be in the expected range
         var variance = Math.Abs(b - a) / 2;
@@ -22,12 +22,12 @@ public class RandomExtTest {
         Assert.AreEqual(expected, random.NextDoubleInRange(new((int)a, d, (int)b)), variance);
     }
 
-    [TestMethod]
-    public void TestRandom() {
+    [TestMethod("Next in range")]
+    public void TestNextInRange() {
         var random = new Random();
-        TestValues(random, 0, 0);
-        TestValues(random, -100, 22.2);
-        TestValues(random, 100, -2222);
-        TestValues(random, 100, 30);
+        TestNextInRange(random, 0, 0);
+        TestNextInRange(random, -100, 22.2);
+        TestNextInRange(random, 100, -2222);
+        TestNextInRange(random, 100, 30);
     }
 }

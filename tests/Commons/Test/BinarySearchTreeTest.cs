@@ -1,4 +1,4 @@
-namespace QuestionMarkExclamationPoint.Commons.Test;
+namespace QuestionMarkExclamationPoint.Commons.Test.Graph.BinarySearchTree;
 
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -6,111 +6,179 @@ using QuestionMarkExclamationPoint.Commons.Graph;
 
 [TestClass]
 public class BinarySearchTreeTest {
-    [TestMethod]
-    public void TestConstructor() {
-        var bst = new BinarySearchTree<int>();
-        Assert.AreEqual(0, bst.Count);
-        Assert.AreEqual(0, bst.Height);
-        Assert.IsNull(bst.Root);
-        Assert.IsFalse(bst.Contains(42));
+    private BinarySearchTree<int> tree;
+
+    [TestInitialize]
+    public void Setup() => this.tree = [];
+
+    [TestMethod("BST initializes correctly")]
+    public void TestInitialize() {
+        Assert.AreEqual(0, this.tree.Count);
+        Assert.AreEqual(0, this.tree.Height);
+        Assert.IsNull(this.tree.Root);
+        Assert.IsFalse(this.tree.Contains(42));
     }
 
-    [TestMethod]
-    public void TestAddOne() {
-        var bst = new BinarySearchTree<int>();
-        Assert.AreEqual(0, bst.Count);
+    [TestMethod("BST initializes correctly with inline array")]
+    public void TestInitializeWithInlineArray() {
+        this.tree = [1, 2, 3];
+        Assert.AreEqual(3, this.tree.Count);
+        Assert.AreEqual(3, this.tree.Height);
+        Assert.IsNotNull(this.tree.Root);
+        Assert.IsTrue(this.tree.Contains(1));
+        Assert.IsTrue(this.tree.Contains(2));
+        Assert.IsTrue(this.tree.Contains(3));
+    }
+
+    [TestMethod("BST add adds single value")]
+    public void TestAddSingle() {
+        Assert.AreEqual(0, this.tree.Count);
         var toAdd = 42;
-        bst.Add(toAdd);
-        Assert.AreEqual(1, bst.Count);
-        Assert.AreEqual(1, bst.Height);
-        Assert.IsNotNull(bst.Root);
-        Assert.AreEqual(bst.Root.Value, toAdd);
-        Assert.IsTrue(bst.Contains(toAdd));
+        this.tree.Add(toAdd);
+        Assert.AreEqual(1, this.tree.Count);
+        Assert.AreEqual(1, this.tree.Height);
+        Assert.IsNotNull(this.tree.Root);
+        Assert.AreEqual(this.tree.Root.Value, toAdd);
+        Assert.IsTrue(this.tree.Contains(toAdd));
     }
 
-    [TestMethod]
-    public void TestAddMore() {
-        var bst = new BinarySearchTree<int> { 42 };
-        Assert.AreEqual(1, bst.Count);
+    [TestMethod("BST add adds many values")]
+    public void TestAddMultiple() {
+        this.tree.Add(42);
+        Assert.AreEqual(1, this.tree.Count);
         List<int> toAdd = [69, 7, 420];
         foreach (var i in toAdd) {
-            bst.Add(i);
+            this.tree.Add(i);
         }
-        var trav = bst.GetTraverser();
-        // PrintTree(bst);
-        Assert.AreEqual(4, bst.Count);
-        Assert.AreEqual(3, bst.Height);
-        Assert.IsNotNull(bst.Root);
-        Assert.IsNotNull(bst.Root.Left);
-        Assert.IsNotNull(bst.Root.Right);
+        Assert.AreEqual(4, this.tree.Count);
+        Assert.AreEqual(3, this.tree.Height);
+        Assert.IsNotNull(this.tree.Root);
+        Assert.IsNotNull(this.tree.Root.Left);
+        Assert.IsNotNull(this.tree.Root.Right);
         foreach (var i in toAdd) {
-            Assert.IsTrue(bst.Contains(i));
+            Assert.IsTrue(this.tree.Contains(i));
         }
     }
 
-    [TestMethod]
-    public void TestAddEvenMore() {
-        var bst = new BinarySearchTree<int> { 42 };
-        Assert.AreEqual(1, bst.Count);
+    [TestMethod("BST add adds many, many values")]
+    public void TestAddMany() {
+        this.tree.Add(42);
+        Assert.AreEqual(1, this.tree.Count);
         List<int> toAdd = [69, 7, 420, 3, 12, 99, 500, 300, 20];
         foreach (var i in toAdd) {
-            bst.Add(i);
+            this.tree.Add(i);
         }
-        Assert.AreEqual(toAdd.Count + 1, bst.Count);
-        Assert.IsNotNull(bst.Root);
-        Assert.IsNotNull(bst.Root.Left);
-        Assert.IsNotNull(bst.Root.Right);
+        Assert.AreEqual(toAdd.Count + 1, this.tree.Count);
+        Assert.IsNotNull(this.tree.Root);
+        Assert.IsNotNull(this.tree.Root.Left);
+        Assert.IsNotNull(this.tree.Root.Right);
         foreach (var i in toAdd) {
-            Assert.IsTrue(bst.Contains(i));
+            Assert.IsTrue(this.tree.Contains(i));
         }
     }
 
-    [TestMethod]
-    public void TestRemove() {
-        var bst = new BinarySearchTree<double> {
-            0,
-            8,
-            -8
-        };
-        //    0
-        //   / \
-        // -8   8
-        Assert.IsTrue(bst.Remove(0));
-        Assert.IsTrue(bst.Contains(8));
-        Assert.IsTrue(bst.Remove(8));
-        Assert.IsFalse(bst.Contains(8));
-        Assert.IsFalse(bst.Remove(8));
-        Assert.IsTrue(bst.Remove(-8));
-        Assert.IsTrue(bst.Count == 0);
-        for (var i = 0; i < 2; i++) {
-            var sign = i % 2 == 0 ? -1 : 1;
-            double[] children = [
-                sign * 8,
-                sign * -8,
-                sign * 16,
-                sign * 32,
-                sign * 4
-            ];
-            bst = [0];
-            foreach (var child in children) {
-                bst.Add(child);
-            }
-            //    0
-            //   / \
-            // -8   8
-            //     / \
-            //    4   16
-            //          \
-            //           32
-            Assert.IsTrue(bst.Remove(0));
-            Assert.IsFalse(bst.Contains(0));
-            foreach (var child in children) {
-                Assert.IsTrue(bst.Contains(child));
-            }
-        }
+    [TestMethod("BST contains returns false when item not found")]
+    public void TestContainsNotFound() {
+        this.tree.Add(42);
+        Assert.IsFalse(this.tree.Contains(69));
+        Assert.AreEqual(1, this.tree.Count);
+        Assert.IsNotNull(this.tree.Root);
     }
 
-    [TestMethod]
+    [TestMethod("BST contains returns true when item found")]
+    public void TestContainsFound() {
+        this.tree.Add(42);
+        Assert.IsTrue(this.tree.Contains(42));
+        Assert.AreEqual(1, this.tree.Count);
+        Assert.IsNotNull(this.tree.Root);
+    }
+
+    [TestMethod("BST remove works on root")]
+    public void TestRemoveRoot() {
+        this.tree.Add(42);
+        Assert.IsTrue(this.tree.Remove(42));
+        Assert.AreEqual(0, this.tree.Count);
+        Assert.IsNull(this.tree.Root);
+    }
+
+    [TestMethod("BST remove works on root with one child")]
+    public void TestRemoveRootOneChild() {
+        this.tree.Add(42);
+        this.tree.Add(69);
+        Assert.IsTrue(this.tree.Remove(42));
+        Assert.AreEqual(1, this.tree.Count);
+        Assert.IsNotNull(this.tree.Root);
+        Assert.IsNull(this.tree.Root.Left);
+        Assert.IsNotNull(this.tree.Root.Right);
+    }
+
+    [TestMethod("BST remove works on root with two children")]
+    public void TestRemoveRootTwoChildren() {
+        this.tree.Add(42);
+        this.tree.Add(69);
+        this.tree.Add(7);
+        Assert.IsTrue(this.tree.Remove(42));
+        Assert.AreEqual(2, this.tree.Count);
+        Assert.IsNotNull(this.tree.Root);
+        Assert.IsNull(this.tree.Root.Left);
+        Assert.IsNotNull(this.tree.Root.Right);
+    }
+
+    [TestMethod("BST remove works on leaf")]
+    public void TestRemoveLeaf() {
+        this.tree.Add(42);
+        this.tree.Add(69);
+        Assert.IsTrue(this.tree.Remove(69));
+        Assert.AreEqual(1, this.tree.Count);
+        Assert.IsNotNull(this.tree.Root);
+        Assert.IsNull(this.tree.Root.Left);
+        Assert.IsNull(this.tree.Root.Right);
+    }
+
+    [TestMethod("BST remove works on node with one child")]
+    public void TestRemoveOneChild() {
+        this.tree.Add(42);
+        this.tree.Add(69);
+        this.tree.Add(7);
+        Assert.IsTrue(this.tree.Remove(69));
+        Assert.AreEqual(2, this.tree.Count);
+        Assert.IsNotNull(this.tree.Root);
+        Assert.IsNotNull(this.tree.Root.Left);
+        Assert.IsNull(this.tree.Root.Right);
+    }
+
+    [TestMethod("BST remove works on node with two children")]
+    public void TestRemoveTwoChildren() {
+        this.tree.Add(42);
+        this.tree.Add(69);
+        this.tree.Add(7);
+        this.tree.Add(420);
+        Assert.IsTrue(this.tree.Remove(69));
+        Assert.AreEqual(3, this.tree.Count);
+        Assert.IsNotNull(this.tree.Root);
+        Assert.IsNotNull(this.tree.Root.Left);
+        Assert.IsNotNull(this.tree.Root.Right);
+    }
+
+    [TestMethod("BST remove returns false when item not found")]
+    public void TestRemoveNotFound() {
+        this.tree.Add(42);
+        Assert.IsFalse(this.tree.Remove(69));
+        Assert.AreEqual(1, this.tree.Count);
+        Assert.IsNotNull(this.tree.Root);
+    }
+
+    [TestMethod("BST clear removes all items")]
+    public void TestClear() {
+        this.tree.Add(42);
+        this.tree.Add(69);
+        this.tree.Add(7);
+        this.tree.Clear();
+        Assert.AreEqual(0, this.tree.Count);
+        Assert.IsNull(this.tree.Root);
+    }
+
+    [TestMethod("BST copy copies all items")]
     public void TestCopy() {
         var inSet = new HashSet<int>() {
             0,
@@ -119,30 +187,31 @@ public class BinarySearchTreeTest {
             -48, -24, -12, -6, 6, 12, 24, 48,
             -64, -40, -28, -22, -13, -11, -7, -5, 5, 7, 11, 13, 22, 28, 40, 64
         };
-        var tree = new BinarySearchTree<int>();
         foreach (var i in inSet) {
-            tree.Add(i);
+            this.tree.Add(i);
         }
-        Assert.AreEqual(inSet.Count, tree.Count);
+        Assert.AreEqual(inSet.Count, this.tree.Count);
+
         var arr = new int[inSet.Count];
-        tree.CopyTo(arr, 0);
+        this.tree.CopyTo(arr, 0);
         var outSet = new HashSet<int>(arr);
+
         foreach (var i in inSet) {
             Assert.IsTrue(outSet.Contains(i), $"{i} missing");
         }
     }
 
-    [TestMethod]
+    [TestMethod("BST for each iterates over every item in order")]
     public void TestForEach() {
-        var tree = new BinarySearchTree<int>() {
+        this.tree = [
             0,
             -16, 16,
             -32, -8, 8, 32,
             -48, -24, -12, -6, 6, 12, 24, 48,
             -64, -40, -28, -22, -13, -11, -7, -5, 5, 7, 11, 13, 22, 28, 40, 64
-        };
+        ];
         var last = int.MinValue;
-        foreach (var i in tree) {
+        foreach (var i in this.tree) {
             Assert.IsTrue(last < i, $"{i} out of order");
             last = i;
         }

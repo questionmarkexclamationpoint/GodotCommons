@@ -2,7 +2,7 @@ namespace QuestionMarkExclamationPoint.Commons;
 
 using System.Numerics;
 
-public readonly struct Range<T>(T a, T b, T? c = null)
+public readonly struct Interval<T>(T a, T b, T? c = null)
         where T : struct, INumber<T> {
     public T Start { get; } = a;
 
@@ -23,22 +23,22 @@ public readonly struct Range<T>(T a, T b, T? c = null)
 
     public bool IsDescending => this.Start > this.End;
 
-    public Range<T> Lower => new(this.Start, this.Mid);
+    public Interval<T> Lower => new(this.Start, this.Mid);
 
-    public Range<T> Upper => new(this.Mid, this.End);
+    public Interval<T> Upper => new(this.Mid, this.End);
 
-    public static Range<T> operator *(Range<T> left, T right)
+    public static Interval<T> operator *(Interval<T> left, T right)
         => new((left.LowerDelta * right) + left.Start, left.Mid, (left.UpperDelta * right) + left.Mid);
 
-    public static Range<T> operator /(Range<T> left, T right)
+    public static Interval<T> operator /(Interval<T> left, T right)
         => new((left.LowerDelta / right) + left.Start, left.Mid, (left.UpperDelta / right) + left.Mid);
 
-    public static Range<T> operator +(Range<T> left, T right)
+    public static Interval<T> operator +(Interval<T> left, T right)
         => new(left.Start + right, left.Mid + right, left.End + right);
 
-    public static Range<T> operator -(Range<T> left, T right)
+    public static Interval<T> operator -(Interval<T> left, T right)
         => new(left.Start - right, left.Mid - right, left.End - right);
-    public TOther GetScale<TOther>(Range<TOther> other, T value)
+    public TOther GetScale<TOther>(Interval<TOther> other, T value)
             where TOther : struct,
                 INumber<TOther>,
                 IDivisionOperators<TOther, T, TOther> {
@@ -51,13 +51,13 @@ public readonly struct Range<T>(T a, T b, T? c = null)
         return outDelta / inDelta;
     }
 
-    public (TOther, TOther) GetScale<TOther>(Range<TOther> other)
+    public (TOther, TOther) GetScale<TOther>(Interval<TOther> other)
             where TOther : struct,
                 INumber<TOther>,
                 IDivisionOperators<TOther, T, TOther>
         => (this.GetScale(other, this.Start), this.GetScale(other, this.End));
 
-    public TOther Map<TOther>(Range<TOther> other, T value)
+    public TOther Map<TOther>(Interval<TOther> other, T value)
             where TOther : struct,
                 INumber<TOther>,
                 IDivisionOperators<TOther, T, TOther>,
@@ -104,8 +104,8 @@ public readonly struct Range<T>(T a, T b, T? c = null)
             : this.End;
 }
 
-public static class Range {
-    public static readonly Range<double> Percentage = new(0, 1);
+public static class Interval {
+    public static readonly Interval<double> Percentage = new(0, 1);
 
-    public static readonly Range<double> Tanh = new(-1, 1);
+    public static readonly Interval<double> Tanh = new(-1, 1);
 }

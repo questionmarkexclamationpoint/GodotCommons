@@ -10,7 +10,7 @@ public static class RandomExt {
         return (random.NextDouble() * (max - min)) + min;
     }
 
-    public static double NextDoubleInRange(this Random random, Range<double> range)
+    public static double NextDoubleInRange(this Random random, Interval<double> range)
         => random.NextDoubleInRange(range.Start, range.End);
 
     public static float NextFloatInRange(this Random random, float min, float max) {
@@ -18,7 +18,7 @@ public static class RandomExt {
         return (random.NextFloat() * (max - min)) + min;
     }
 
-    public static float NextFloatInRange(this Random random, Range<float> range)
+    public static float NextFloatInRange(this Random random, Interval<float> range)
         => random.NextFloatInRange(range.Start, range.End);
 
     public static int NextIntInRange(this Random random, int min, int max) {
@@ -26,6 +26,6 @@ public static class RandomExt {
         return (int)random.NextInt64(max - min) + min;
     }
 
-    public static int NextIntInRange(this Random random, Range<int> range)
+    public static int NextIntInRange(this Random random, Interval<int> range)
         => random.NextIntInRange(range.Start, range.End);
 }

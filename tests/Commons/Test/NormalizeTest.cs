@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public class NormalizeTest {
-    [TestMethod]
+    [TestMethod("Simple tanh normalization")]
     public void TestSimpleTanh() {
         var result = Normalize.Tanh(-1_000_000);
         Assert.AreEqual(-1, result, 0.01);
@@ -15,7 +15,7 @@ public class NormalizeTest {
         Assert.AreEqual(0, result);
     }
 
-    [TestMethod]
+    [TestMethod("Clamped tanh normalization")]
     public void TestClampedTanh() {
         var result = Normalize.Tanh(2, clamp: true);
         Assert.AreEqual(1, result, 0.015);
@@ -29,7 +29,7 @@ public class NormalizeTest {
         Assert.AreEqual(0, result, 0.01);
     }
 
-    [TestMethod]
+    [TestMethod("Simple sigmoid normalization")]
     public void TestSimpleSigmoid() {
         var result = Normalize.Sigmoid(-1_000_000);
         Assert.AreEqual(0, result, 0.01);

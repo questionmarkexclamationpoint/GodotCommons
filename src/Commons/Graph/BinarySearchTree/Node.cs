@@ -6,13 +6,15 @@ using System.Linq;
 using QuestionMarkExclamationPoint.Commons.Graph.Generic;
 
 public static partial class BinarySearchTree {
-    public class Node<TNode, TValue>(TValue value)
+    public class Node<TNode, TValue>
             : IIndexedNode<TNode, Direction>,
             IGroupedNode<TNode, Relationship>,
             IValuedNode<TNode, TValue>
             where TValue : IComparable<TValue>
             where TNode : Node<TNode, TValue> {
-        public TValue Value { get; } = value;
+        internal Node(TValue value) => this.Value = value;
+
+        public TValue Value { get; private init; }
 
         private TNode? parent;
         public TNode? Parent {
@@ -30,17 +32,16 @@ public static partial class BinarySearchTree {
         private TNode? left;
         public TNode? Left {
             get => this.left;
-            set => this.SetChild(value, Direction.Left);
+            internal set => this.SetChild(value, Direction.Left);
         }
 
         private TNode? right;
         public TNode? Right {
             get => this.right;
-            set => this.SetChild(value, Direction.Right);
+            internal set => this.SetChild(value, Direction.Right);
         }
 
         private TNode? root;
-        // TODO public
         internal TNode Root {
             get => this.root ?? (TNode)this;
             private set {
@@ -58,8 +59,7 @@ public static partial class BinarySearchTree {
         }
 
         private int count = 1;
-        // TODO public
-        public int SubCount {
+        internal int SubCount {
             get => this.count;
             private set {
                 var oldValue = this.count;
@@ -70,10 +70,10 @@ public static partial class BinarySearchTree {
             }
         }
 
-        // TODO cache and public
-        public int SubHeight => 1 + Math.Max(this.Left?.SubHeight ?? 0, this.Right?.SubHeight ?? 0);
+        // TODO cache
+        internal int SubHeight => 1 + Math.Max(this.Left?.SubHeight ?? 0, this.Right?.SubHeight ?? 0);
 
-        public int SubBalance => this.Right?.SubHeight ?? 0 - this.Left?.SubHeight ?? 0;
+        internal int SubBalance => this.Right?.SubHeight ?? 0 - this.Left?.SubHeight ?? 0;
 
         public TNode? this[Direction index] {
             get => index switch {
@@ -85,7 +85,7 @@ public static partial class BinarySearchTree {
                         nameof(index)
                 )
             };
-            set {
+            internal set {
                 switch (index) {
                     case Direction.Left:
                         this.Left = value;
@@ -99,9 +99,10 @@ public static partial class BinarySearchTree {
                             nameof(index)
                         );
                     default:
-                        throw new ArgumentException(
-                            $"Invalid {nameof(Direction)} \"{index}\"",
-                            nameof(index)
+                        throw new ArgumentOutOfRangeException(
+                            nameof(index),
+                            index,
+                            $"Invalid {nameof(Direction)} \"{index}\""
                         );
                 }
             }
@@ -138,9 +139,9 @@ public static partial class BinarySearchTree {
                         }
                         break;
                     default:
-                        throw new ArgumentException(
-                                $"Invalid {nameof(Relationship)} \"{group}\"",
-                                 nameof(group)
+                        throw new ArgumentOutOfRangeException(
+                                nameof(group),
+                                $"Invalid {nameof(Relationship)} \"{group}\""
                         );
                 }
                 return result;
@@ -192,6 +193,8 @@ public static partial class BinarySearchTree {
         }
     }
 
-    public class Node<TValue>(TValue value) : Node<Node<TValue>, TValue>(value)
-            where TValue : IComparable<TValue> { }
+    public class Node<TValue> : Node<Node<TValue>, TValue>
+            where TValue : IComparable<TValue> {
+        internal Node(TValue value) : base(value) { }
+    }
 }

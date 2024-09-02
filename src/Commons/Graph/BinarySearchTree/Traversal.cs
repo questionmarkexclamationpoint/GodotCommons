@@ -16,6 +16,46 @@ public static partial class BinarySearchTree {
 
 
 internal static class BinarySearchTreeTraversalExt {
+    public static Traverser<TNode> Traverser<TNode, TValue>(
+            this Traversal traversal,
+            BinarySearchTree<TNode, TValue> tree
+    )
+            where TNode : Node<TNode, TValue>
+            where TValue : IComparable<TValue> {
+        if (tree.Root == null) {
+            return new();
+        }
+        return traversal.Traverser<TNode, TValue>(tree.Root);
+    }
+
+    // TODO avoid leaving sub-tree
+    public static Traverser<TNode> Traverser<TNode, TValue>(
+            this Traversal traversal,
+            TNode node
+    )
+            where TNode : Node<TNode, TValue>
+            where TValue : IComparable<TValue> {
+        var successor = traversal.Successor<TNode, TValue>(node);
+        var firstNode = traversal switch {
+            Traversal.PreOrder or Traversal.DepthFirst or Traversal.BreadthFirst => node,
+            Traversal.PostOrder => Deepest<TNode, TValue>(node, true),
+            Traversal.InOrder => DirectionMost<TNode, TValue>(node, Direction.Left),
+            _ => throw new NotImplementedException(),
+        };
+        return new(firstNode, successor);
+    }
+
+    private static Traverser.Successor<TNode> Successor<TNode, TValue>(this Traversal traversal, TNode? root)
+            where TValue : IComparable<TValue>
+            where TNode : Node<TNode, TValue> => traversal switch {
+                Traversal.InOrder => InOrderSuccessor<TNode, TValue>(root),
+                Traversal.PreOrder => PreOrderSuccessor<TNode, TValue>(root),
+                Traversal.PostOrder => PostOrderSuccessor<TNode, TValue>(root),
+                Traversal.DepthFirst => DepthFirstSuccessor<TNode, TValue>(),
+                Traversal.BreadthFirst => BreadthFirstSuccessor<TNode, TValue>(),
+                _ => throw new NotImplementedException(),
+            };
+
     private static TNode DirectionMost<TNode, TValue>(TNode node, Direction edge)
             where TValue : IComparable<TValue>
             where TNode : Node<TNode, TValue> {
@@ -171,33 +211,5 @@ internal static class BinarySearchTreeTraversalExt {
         Queue<TNode> queue = [];
         HashSet<TNode> visited = [];
         return (current) => successor(current, queue, visited);
-    }
-
-    private static Traverser.Successor<TNode> Successor<TNode, TValue>(this Traversal traversal, TNode? root)
-            where TValue : IComparable<TValue>
-            where TNode : Node<TNode, TValue> => traversal switch {
-                Traversal.InOrder => InOrderSuccessor<TNode, TValue>(root),
-                Traversal.PreOrder => PreOrderSuccessor<TNode, TValue>(root),
-                Traversal.PostOrder => PostOrderSuccessor<TNode, TValue>(root),
-                Traversal.DepthFirst => DepthFirstSuccessor<TNode, TValue>(),
-                Traversal.BreadthFirst => BreadthFirstSuccessor<TNode, TValue>(),
-                _ => throw new NotImplementedException(),
-            };
-
-    public static Traverser<TNode> Traverser<TNode, TValue>(
-            this Traversal traversal,
-            BinarySearchTree<TNode, TValue> tree
-    ) where TNode : Node<TNode, TValue> where TValue : IComparable<TValue> {
-        if (tree.Root == null) {
-            return new();
-        }
-        var successor = traversal.Successor<TNode, TValue>(tree.Root);
-        var firstNode = traversal switch {
-            Traversal.PreOrder or Traversal.DepthFirst or Traversal.BreadthFirst => tree.Root,
-            Traversal.PostOrder => Deepest<TNode, TValue>(tree.Root, true),
-            Traversal.InOrder => DirectionMost<TNode, TValue>(tree.Root, Direction.Left),
-            _ => throw new NotImplementedException(),
-        };
-        return new(firstNode, successor);
     }
 }

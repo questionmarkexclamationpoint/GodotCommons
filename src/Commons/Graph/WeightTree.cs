@@ -6,7 +6,7 @@ using static QuestionMarkExclamationPoint.Commons.Graph.BinarySearchTree;
 public class WeightTree<TValue>
         : BinarySearchTree<WeightTree.Node<TValue>, TValue>
         where TValue : IComparable<TValue> {
-    public override WeightTree.Node<TValue> CreateNode(TValue value) => new(value);
+    protected override WeightTree.Node<TValue> CreateNode(TValue value) => new(value);
 
     public void Add(TValue item, float weight) => throw new NotImplementedException();
 

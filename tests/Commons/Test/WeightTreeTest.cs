@@ -5,7 +5,7 @@ using QuestionMarkExclamationPoint.Commons.Graph;
 
 [TestClass]
 public class WeightTreeTest {
-    [TestMethod]
+    [TestMethod("Sample works correctly")]
     public void TestSample() {
         var tree = new WeightTree<int> {
             { 1, 1 },

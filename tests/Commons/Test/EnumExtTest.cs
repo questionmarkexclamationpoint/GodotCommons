@@ -13,8 +13,8 @@ public class EnumExtTest {
         D = 10
     }
 
-    [TestMethod]
-    public void TestToAndFromLong() {
+    [TestMethod("Convert to index")]
+    public void ConvertToIndex() {
         var values = Enum.GetValues<TestEnum>();
         for (var i = 0; i < values.Length; i++) {
             Assert.AreEqual(i, values[i].ToIndex(), $"{values[i]} failed");

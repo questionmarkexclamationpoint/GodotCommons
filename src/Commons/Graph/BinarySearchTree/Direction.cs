@@ -7,13 +7,13 @@ public static partial class BinarySearchTree {
         Right
     }
 
-    public static Direction? GetDirection(int? value) {
-        if (value == null) {
+    public static Direction? GetDirection(int? comparison) {
+        if (comparison == null) {
             return Direction.Parent;
         }
-        if (value == 0) {
+        if (comparison == 0) {
             return null;
         }
-        return value < 0 ? Direction.Left : Direction.Right;
+        return comparison < 0 ? Direction.Left : Direction.Right;
     }
 }
