@@ -2,7 +2,7 @@ namespace QuestionMarkExclamationPoint.Commons.Extensions;
 
 using System;
 
-public static class RandomExt {
+public static class RandomExtensions {
     public static float NextFloat(this Random random) => random.NextSingle();
 
     public static double NextDoubleInRange(this Random random, double min, double max) {

@@ -2,7 +2,7 @@ namespace QuestionMarkExclamationPoint.Commons.Extensions;
 
 using System;
 
-public static class EnumExt {
+public static class EnumExtensions {
     public static long ToIndex(this Enum value)
         => Array.IndexOf(Enum.GetValues(value.GetType()), value);
 

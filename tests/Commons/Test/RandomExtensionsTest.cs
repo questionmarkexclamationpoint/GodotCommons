@@ -5,7 +5,7 @@ using Commons.Extensions;
 using System;
 
 [TestClass]
-public class RandomExtTest {
+public class RandomExtensionsTest {
     private static void TestNextInRange(Random random, double a, double b) {
         // make variance half the difference, and expected the mean of a and b,
         // so that any correctly generated random value will be in the expected range
