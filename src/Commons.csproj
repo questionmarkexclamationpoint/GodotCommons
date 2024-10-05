@@ -14,7 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GodotSharp" Version="4.2.2" />
     <None Include="../LICENSE" Pack="true" PackagePath="/" />
     <None Include="../README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
