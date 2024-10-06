@@ -27,7 +27,7 @@ public class EvolutionManagerTest {
         -10, -5, -1, -0.1, 0, 0.1, 1, 5, 10
     ];
 
-    private class TestOrganism(double a, double b, double c) : IOrganism<TestOrganism> {
+    private sealed class TestOrganism(double a, double b, double c) : IOrganism<TestOrganism> {
         public Polynomial Polynomial { get; private set; } = new(a, b, c);
 
         public double Fitness {
