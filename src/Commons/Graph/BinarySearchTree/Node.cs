@@ -6,7 +6,7 @@ using System.Linq;
 using QuestionMarkExclamationPoint.Commons.Graph.Generic;
 
 public static partial class BinarySearchTree {
-    public class Node<TNode, TValue> : INode<TNode>
+    public class Node<TNode, TValue> : IGraphNode<TNode>
             where TValue : IComparable<TValue>
             where TNode : Node<TNode, TValue> {
         internal Node(TValue value) => this.Value = value;
