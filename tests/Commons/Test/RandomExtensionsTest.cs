@@ -11,7 +11,7 @@ public class RandomExtensionsTest {
         // so that any correctly generated random value will be in the expected range
         var variance = Math.Abs(b - a) / 2;
         var expected = (a + b) / 2;
-        var f = random.NextFloatInRange((float)a, (float)b);
+        var f = random.NextSingleInRange((float)a, (float)b);
         Assert.AreEqual(expected, f, variance);
         Assert.AreEqual(expected, random.NextFloatInRange(new((float)a, f, (int)b)), variance);
         var i = random.NextIntInRange((int)a, (int)b);
