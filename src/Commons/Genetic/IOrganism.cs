@@ -1,11 +1,11 @@
 namespace QuestionMarkExclamationPoint.Commons.Genetic;
 
 public interface IOrganism<TSelf> where TSelf : IOrganism<TSelf> {
-    double Fitness { get; }
+    public double Fitness { get; }
 
-    TSelf Clone();
+    public TSelf Clone();
 
-    void Mutate(double mutationChance = 0.01);
+    public void Mutate(double mutationChance = 0.01);
 
-    TSelf Reproduce(TSelf other);
+    public TSelf Reproduce(TSelf other);
 }
