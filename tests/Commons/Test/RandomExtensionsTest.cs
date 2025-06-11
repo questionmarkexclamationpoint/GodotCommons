@@ -13,7 +13,7 @@ public class RandomExtensionsTest {
         var expected = (a + b) / 2;
         var f = random.NextSingleInRange((float)a, (float)b);
         Assert.AreEqual(expected, f, variance);
-        Assert.AreEqual(expected, random.NextFloatInRange(new((float)a, f, (int)b)), variance);
+        Assert.AreEqual(expected, random.NextSingleInRange(new((float)a, f, (int)b)), variance);
         var i = random.NextIntInRange((int)a, (int)b);
         Assert.AreEqual(expected, i, variance);
         Assert.AreEqual(expected, random.NextIntInRange(new((int)a, i, (int)b)), variance);

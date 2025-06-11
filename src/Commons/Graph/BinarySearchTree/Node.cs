@@ -161,6 +161,12 @@ public static partial class BinarySearchTree {
             }
         }
 
+        public IEnumerable<TNode> OutgoingNodes => throw new NotImplementedException();
+
+        public IEnumerable<TNode> IncomingNodes => throw new NotImplementedException();
+
+        public IEnumerable<TNode> Nodes => throw new NotImplementedException();
+
         internal virtual void SetChild(TNode? node, Direction side) {
             TNode? previous = null;
             switch (side) {
